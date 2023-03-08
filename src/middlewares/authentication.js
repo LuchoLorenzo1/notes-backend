@@ -12,7 +12,7 @@ export const authenticate = async (req, res, next) => {
 		const data = jwt.verify(token, process.env.SECRET)
 		const user = await User.findById(data.id)
 		console.log(user)
-		req.user = {username: user.username, id: user._id}
+		req.user = {username: user.username, id: user._id, email: user.email}
 	} catch (error) {
 		return res.status(400).json("Invalid token")
 	}

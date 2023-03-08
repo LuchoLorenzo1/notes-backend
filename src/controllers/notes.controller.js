@@ -1,7 +1,7 @@
 import Note from '../models/Note.js'
 
 export const createNote = async (req, res) => {
-	let { fileName, content, isPublic, lenght } = req.body
+	let { fileName, content, isPublic, length } = req.body
 	if(!fileName || !content){
 		return res.status(400).json("Incorret note format")
 	}
@@ -15,7 +15,7 @@ export const createNote = async (req, res) => {
 			fileName,
 			content,
 			isPublic,
-			lenght,
+			length,
 		})
 		const noteSaved = await newNote.save()
 		res.status(201).json(noteSaved)
@@ -26,12 +26,16 @@ export const createNote = async (req, res) => {
 }
 
 export const getNotes = async (req, res) => {
+	console.log(req.user.id)
 	const notes = await Note.find({authorId: req.user.id})
 	return res.json(notes)
 }
 
 export const getNoteById = async (req, res) => {
 	const note = await Note.find({_id: req.params.id})
+	if(!note || (!note.isPublic && note.authorId != req.user.id)){
+		return res.sendStatus(404).end()
+	}
 	res.status(200).json(note)
 }
 

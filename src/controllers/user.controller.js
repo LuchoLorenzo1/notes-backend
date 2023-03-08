@@ -28,9 +28,10 @@ export const signUp = async (req, res) => {
 	await user.save()
 
 	const token = jwt.sign({ id: user._id }, process.env.SECRET, {
-		expiresIn: 60 * 60, // 1 hora
+		expiresIn: 60 * 60 * 24,
 	})
-	res.status(200).json({ token })
+
+	res.status(200).json({ token, username: user.username, email: user.email })
 }
 
 export const signIn = async (req, res) => {
@@ -50,10 +51,10 @@ export const signIn = async (req, res) => {
 	}
 
 	const token = jwt.sign({ id: user._id }, process.env.SECRET, {
-		expiresIn: 60 * 60,
+		expiresIn: 60 * 60 * 24 * 30,
 	})
 
-	res.json({ token })
+	res.status(200).json({ token, username: user.username, email: user.email })
 }
 
 export const createAccount = async (req, res) => {
@@ -88,4 +89,8 @@ export const getUserById = async (req, res) => {
 export const updateUserById = async (req, res) => {
 	const user = await User.deleteMany({})
 	res.json(user)
+}
+
+export const aboutme = async (req, res) => {
+	res.json({user: req.user.username, email: req.user.email})
 }
