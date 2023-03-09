@@ -1,12 +1,12 @@
 import Note from '../models/Note.js'
 
 export const createNote = async (req, res) => {
-	let { fileName, content, isPublic, length } = req.body
+	const { fileName, content, length } = req.body
 	if(!fileName || !content){
-		return res.status(400).json("Incorret note format")
+		return res.status(400).json("Incorrect note format")
 	}
 
-	isPublic = !!isPublic // if it's undefined it's false (it's not public)
+	const isPublic = !!req.body.isPublic // if it's undefined it's false (it's not public)
 
 	try {
 		const newNote = new Note({
@@ -18,7 +18,7 @@ export const createNote = async (req, res) => {
 			length,
 		})
 		const noteSaved = await newNote.save()
-		res.status(201).json(noteSaved)
+		return res.status(201).json(noteSaved)
 	} catch (error) {
 		console.error(error)
 		return res.sendStatus(500)
@@ -26,29 +26,40 @@ export const createNote = async (req, res) => {
 }
 
 export const getNotes = async (req, res) => {
-	console.log(req.user.id)
 	const notes = await Note.find({authorId: req.user.id})
 	return res.json(notes)
 }
 
+
 export const getNoteById = async (req, res) => {
-	const note = await Note.find({_id: req.params.id})
-	if(!note || (!note.isPublic && note.authorId != req.user.id)){
-		return res.sendStatus(404).end()
-	}
-	res.status(200).json(note)
+	// const note = await Note.findById(req.params.id)
+	// if(!note) return res.sendStatus(404).end()
+	// if(!note.isPublic && !req.user.id.equals(note.authorId)) return res.sendStatus(404).end()
+	res.status(200).json(req.note)
 }
 
 export const updateNoteById = async (req, res) => {
-	const updatedNote = await Note.findByIdAndUpdate(
-		req.params.id,
-		req.body,
-		{ new: true }
-	)
-	res.status(204).json(updatedNote)
+	// const note = await Note.findById(req.params.id)
+	// if(!note) return res.sendStatus(404).end()
+	// if(!note.isPublic && !req.user.id.equals(note.authorId)) return res.sendStatus(404).end()
+
+	await req.note.updateOne(req.body)
+	await req.note.save()
+	res.sendStatus(200)
 }
 
 export const deleteNoteById = async (req, res) => {
-	await Note.findByIdAndDelete(req.params.id)
-	res.status(204).json()
+	/* await Note.deleteMany({}) */
+
+	// const note = await Note.findById(req.params.id)
+	// if(!note) return res.sendStatus(404).end()
+	// if(!note.isPublic && !req.user.id.equals(note.authorId)) return res.sendStatus(404).end()
+
+	try {
+		await req.note.deleteOne()
+		return res.sendStatus(200)
+	} catch(err) {
+		console.log(err)
+		return res.sendStatus(500)
+	}
 }

@@ -77,18 +77,27 @@ export const createAccount = async (req, res) => {
 }
 
 export const deleteUserById = async (req, res) => {
-	await User.deleteMany({})
-	res.json("eliminados bob")
+	try {
+		await User.deleteUserById(req.user.id)
+	} catch (err) {
+		console.log(err)
+		return res.sendStatus(400)
+	}
+	res.sendStatus(200)
 }
 
 export const getUserById = async (req, res) => {
-	const user = await User.find({})
+	const user = await User.findById(req.user.id)
 	res.json(user)
 }
 
 export const updateUserById = async (req, res) => {
-	const user = await User.deleteMany({})
-	res.json(user)
+	const updatedNote = await Note.findByIdAndUpdate(
+		req.params.id,
+		req.body,
+		{ new: true }
+	)
+	res.status(204).json(updatedNote)
 }
 
 export const aboutme = async (req, res) => {

@@ -20,7 +20,6 @@ router.get('/', auth, getUserById)
 router.delete('/:id', auth, deleteUserById)
 router.put('/:id', auth, updateUserById)
 
-
 router.get('/aboutme', auth, aboutme)
 
 export default router

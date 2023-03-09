@@ -3,9 +3,9 @@ import mongoose from "mongoose"
 const noteSchema = new mongoose.Schema({
 	date: { type: Date, required: true },
 	fileName: { type: String, required: true },
-	isPublic: {type: Boolean, required: true},
-	authorId: { type: mongoose.Schema.Types.ObjectId, required: true },
-	length: Number,
+	isPublic: { type: Boolean, required: true },
+	authorId: { type: mongoose.Schema.Types.ObjectId, required: true, immutable: true },
+	length: { Type: Number },
 	content: { type: String, required: true },
 })
 
