@@ -147,6 +147,53 @@ export const getFeed = async (req, res) => {
 	req.json("FEED")
 }
 
+export const followUserById = async (req, res) => {
+	const followId = req.params.id
+	const userToFollow = User.findByIdAndUpdate(followId)
+	if (!userToFollow) {
+		return res.sendStatus(404)
+	}
+
+	await User.updateOne(
+			{ _id: userToFollow },
+			{ $push: { followers: req.user.id } },
+	)
+
+	await User.updateOne(
+			{ _id: req.user.id },
+			{ $push: { following: followId } },
+	)
+
+	// userToFollow.followers.push(req.user.id)
+	// req.user.following.push(followId)
+	// await userToFollow.save().catch(err => res.status(500).send(err))
+	// await req.user.save().catch(err => res.status(500).send(err))
+
+	res.sendStatus(200)
+}
+
+
+export const unFollowUserById = async (req, res) => {
+	const followId = req.paramas.id
+
+	const userToFollow = User.findByIdAndUpdate(followId)
+	if (userToFollow) {
+		return res.sendStatus(404)
+	}
+
+	const user = User.findByIdAndUpdate(req.user.id)
+
+	userToFollow.followers.push(req.user.id)
+	user.following.push(followId)
+
+	await userToFollow.save()
+	await user.save()
+}
+
+export const getFeed = async (req, res) => {
+	req.json("FEED")
+}
+
 export const aboutme = async (req, res) => {
 	// return res.json({
 	// 	_id: req.user._id,
