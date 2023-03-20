@@ -5,7 +5,7 @@ import Note from '../models/Note.js'
 export const authenticate = async (req, res, next) => {
 	const auth = req.headers['authorization']
 	if(!auth || !auth.toUpperCase().includes('BEARER')){
-		return res.status(400).json("No token provided")
+		return res.status(404).json("You are not logged in")
 	}
 	const token = auth.substr(7) // Authorization:Bearer token
 
@@ -14,8 +14,9 @@ export const authenticate = async (req, res, next) => {
 		const user = await User.findById(data.id)
 		req.user = {username: user.username, id: user._id, email: user.email}
 	} catch (error) {
-		return res.status(400).json("Invalid token")
+		return res.status(404).json("You are not logged in")
 	}
+
 	next()
 }
 
