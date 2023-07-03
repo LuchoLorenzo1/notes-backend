@@ -58,11 +58,11 @@ export const signIn = async (req, res) => {
 }
 
 export const createAccount = async (req, res) => {
-	const {username, password, email} = req.body
+	const { username, password, email } = req.body
 
 	const validation = await validateExistance(req.body)
-	if(validation.existance){
-			return res.status(400).json(validation.message)
+	if (validation.existance) {
+		return res.status(400).json(validation.message)
 	}
 
 	const user = new User({
@@ -101,5 +101,5 @@ export const updateUserById = async (req, res) => {
 }
 
 export const aboutme = async (req, res) => {
-	res.json({user: req.user.username, email: req.user.email})
+	res.json({ user: req.user.username, email: req.user.email })
 }

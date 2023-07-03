@@ -1,0 +1,338 @@
+{
+	"info": {
+		"_postman_id": "dcfde9c1-f1ef-4904-8f6a-4f883242a4d2",
+		"name": "NotesApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26154638"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"Menem\",\n    \"password\": \"123\",\n    \"email\": \"me1@hotmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/accounts/signup",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"accounts",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"me@hotmail.com\",\n    \"password\": \"123\"\n}"
+				},
+				"url": {
+					"raw": "{{domain}}/accounts/signin",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"accounts",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "accounts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/accounts",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "notes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/notes",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"notes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_notes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fileName\": \"Fini version1\",\n    \"content\": \"Me encantan bts\",\n    \"length\": 15, \n    \"isPublic\": true \n}"
+				},
+				"url": {
+					"raw": "{{domain}}/notes",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"notes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_note_by_id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/notes/6409517cf795b46ef423f71d",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"notes",
+						"6409517cf795b46ef423f71d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_note_by_id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fileName\": \"Messi\",\n    \"content\": \"godeto\", \n    \"authorId\": \"hahahsfd89\"\n}"
+				},
+				"url": {
+					"raw": "{{domain}}/notes/64094f5444bc97ba054b53d5",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"notes",
+						"64094f5444bc97ba054b53d5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "aboutme",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTMwN2M1YjBlOWM4MTRiYTQ2MGJiNiIsImlhdCI6MTY4ODQwNjA5NiwiZXhwIjoxNjkwOTk4MDk2fQ.iTCFUSKkeFdU-A6Chao_SlPnAHmLLHL6O9_trmkXumo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/accounts/aboutme",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"accounts",
+						"aboutme"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "follow_account_by_id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/accounts/follow/641796138d7c994d0ed3bc5a",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"accounts",
+						"follow",
+						"641796138d7c994d0ed3bc5a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "unfollow_account_by_id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/accounts/unfollow/64175f9ff0817528bdfc473c",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"accounts",
+						"unfollow",
+						"64175f9ff0817528bdfc473c"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "domain",
+			"value": "localhost:3000"
+		}
+	]
+}

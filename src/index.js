@@ -4,13 +4,14 @@ import notes from './routes/notes.routes.js'
 import accounts from './routes/accounts.routes.js'
 
 const app = express()
+
 import './databaseConnection.js'
 
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
-app.get('/', (req, res) => {
-	res.redirect('login')
+app.get('/', (_, res) => {
+	res.redirect('/accounts/signin')
 })
 
 app.use('/notes', notes)

@@ -2,7 +2,7 @@ import Note from '../models/Note.js'
 
 export const createNote = async (req, res) => {
 	const { fileName, content, length } = req.body
-	if(!fileName || !content){
+	if (!fileName || !content) {
 		return res.status(400).json("Incorrect note format")
 	}
 
@@ -26,7 +26,7 @@ export const createNote = async (req, res) => {
 }
 
 export const getNotes = async (req, res) => {
-	const notes = await Note.find({authorId: req.user.id})
+	const notes = await Note.find({ authorId: req.user.id })
 	return res.json(notes)
 }
 
@@ -58,7 +58,7 @@ export const deleteNoteById = async (req, res) => {
 	try {
 		await req.note.deleteOne()
 		return res.sendStatus(200)
-	} catch(err) {
+	} catch (err) {
 		console.log(err)
 		return res.sendStatus(500)
 	}
