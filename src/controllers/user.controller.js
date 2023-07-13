@@ -10,6 +10,12 @@ const validateUserData = async (user) => {
 	}
 }
 
+const createToken = (id) => {
+	return jwt.sign({ id }, process.env.SECRET, {
+		expiresIn: "3h",
+	})
+}
+
 export const signUp = async (req, res) => {
 	const { username, password, email } = req.body
 
@@ -27,9 +33,7 @@ export const signUp = async (req, res) => {
 	user.password = await user.encryptPassword(password)
 	await user.save()
 
-	const token = jwt.sign({ id: user._id }, process.env.SECRET, {
-		expiresIn: 60 * 60 * 24,
-	})
+	const token = createToken(user._id);
 
 	res.status(200).json({ token, username: user.username, email: user.email })
 }
@@ -51,29 +55,33 @@ export const signIn = async (req, res) => {
 	}
 
 	const token = jwt.sign({ id: user._id }, process.env.SECRET, {
-		expiresIn: 60 * 60 * 24 * 30,
+		expiresIn: "3h",
 	})
 
 	res.status(200).json({ token, username: user.username, email: user.email })
 }
 
-export const createAccount = async (req, res) => {
-	const { username, password, email } = req.body
+export const getAccountProvider = async (req, res) => {
+	const { username, providerId, email, provider } = req.body
+	if (!username || !providerId || !email || !provider)
+		return res.sendStatus(400)
 
-	const validation = await validateExistance(req.body)
-	if (validation.existance) {
-		return res.status(400).json(validation.message)
+	const user = await User.find({ providerId: providerId, provider: provider })
+	if (user) {
+		const token = createToken(user._id);
+		return res.status(200).json({ token })
 	}
 
-	const user = new User({
+	const newUser = new User({
 		username,
-		password,
-		email
+		email,
+		providerId,
+		provider,
 	})
 
-	user.password = await user.encryptPassword(password)
-	const u = await user.save()
-	res.status(200).send(u)
+	await newUser.save()
+	const token = createToken(newUser._id);
+	res.status(200).json({ token })
 }
 
 export const deleteUserById = async (req, res) => {
