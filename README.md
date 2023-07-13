@@ -1,5 +1,7 @@
 # Notes Backend
 
+Example of a CRUD api using expressjs and mongoose.
+
 ```
 npm install
 npm start
