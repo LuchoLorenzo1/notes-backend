@@ -32,17 +32,10 @@ export const getNotes = async (req, res) => {
 
 
 export const getNoteById = async (req, res) => {
-	// const note = await Note.findById(req.params.id)
-	// if(!note) return res.sendStatus(404).end()
-	// if(!note.isPublic && !req.user.id.equals(note.authorId)) return res.sendStatus(404).end()
 	res.status(200).json(req.note)
 }
 
 export const updateNoteById = async (req, res) => {
-	// const note = await Note.findById(req.params.id)
-	// if(!note) return res.sendStatus(404).end()
-	// if(!note.isPublic && !req.user.id.equals(note.authorId)) return res.sendStatus(404).end()
-
 	await req.note.updateOne(req.body)
 	await req.note.save()
 	res.sendStatus(200)

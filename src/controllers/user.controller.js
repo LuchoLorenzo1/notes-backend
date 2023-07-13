@@ -34,7 +34,6 @@ export const signUp = async (req, res) => {
 	await user.save()
 
 	const token = createToken(user._id);
-
 	res.status(200).json({ token, username: user.username, email: user.email })
 }
 
@@ -54,10 +53,7 @@ export const signIn = async (req, res) => {
 		return res.status(400).send('wrong credentials')
 	}
 
-	const token = jwt.sign({ id: user._id }, process.env.SECRET, {
-		expiresIn: "3h",
-	})
-
+	const token = createToken(user._id);
 	res.status(200).json({ token, username: user.username, email: user.email })
 }
 
@@ -66,8 +62,8 @@ export const getAccountProvider = async (req, res) => {
 	if (!username || !providerId || !email || !provider)
 		return res.sendStatus(400)
 
-	const user = await User.find({ providerId: providerId, provider: provider })
-	if (user) {
+	const user = await User.findOne({ providerId, provider })
+	if (!!user) {
 		const token = createToken(user._id);
 		return res.status(200).json({ token })
 	}

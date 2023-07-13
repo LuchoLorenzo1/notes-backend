@@ -7,7 +7,7 @@ export const authenticate = async (req, res, next) => {
 	if (!auth || !auth.toUpperCase().includes('BEARER')) {
 		return res.status(400).json("No token provided")
 	}
-	const token = auth.substr(7) // Authorization:Bearer token
+	const token = auth.substr(7)
 
 	try {
 		const data = jwt.verify(token, process.env.SECRET)
